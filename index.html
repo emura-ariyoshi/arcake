@@ -8,56 +8,37 @@
       <!-- glbのアニメーションを動かす機能「animation-mixer」を働かせるためにaframe-extras読み込みをする -->
 </head>
 
-<body style="margin: 0; overflow: hidden;">
-  <button id="startMusic" style="position: fixed; left: 50%; top: 20px; transform: translateX(-50%); z-index: 999; display: block;">音楽を再生</button>
-
+<body style="margin : 0px; overflow: hidden;">
   <a-scene embedded arjs>
-    <!-- a-sceneのところへ「embedded arjs」と入れないと、アスペクト比（縦横比）が狂います -->
+            <!-- a-sceneのところへ「embedded arjs」と入れないと、アスペクト比（縦横比）が狂います -->
 
     <!-- マーカーが認識されたら -->
-    <a-marker type="pattern" preset="custom" url="./pattern.patt">
+    <a-marker
+      type="pattern" 
+      preset="custom" 
+      url="./pattern.patt">
+
       <!-- 画像を表示します -->
-      <!-- ケーキのアニメーション -->
+          <!-- ケーキのアニメーション -->
       <a-entity
-        gltf-model="url(./20260912cake.glb)"
-        position="0 0 0"
-        rotation="0 0 0"
-        scale="0.5 0.5 0.5"
-        animation-mixer>
-      </a-entity>
+          gltf-model="url(./20260912cake.glb)"
+          
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="0.5 0.5 0.5"
+          animation-mixer></a-entity>
+                <!-- 「animation-mixer」を追記します -->
+
+         
+                <!-- アニメーションがないファイルも「animation-mixer」を追記します。これがないと表示されません -->
+
 
       <!-- 音楽を流します -->
-      <audio id="bgm" src="./HappyBirthday.wav" preload="auto" loop></audio>
+        <audio src="/HappyBirthday.wav" autoplay loop>
+          あなたのブラウザーは <code>audio</code>要素をサポートしていません。
+        </audio>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
-
-  <script>
-    const bgm = document.getElementById('bgm');
-    const startMusicBtn = document.getElementById('startMusic');
-
-    function playMusic() {
-      if (!bgm) return;
-      bgm.volume = 0.6;
-      bgm.play().catch(() => {
-        // ブラウザの自動再生制限により再生が拒否された場合は無視
-      });
-      if (startMusicBtn) {
-        startMusicBtn.style.display = 'none';
-      }
-    }
-
-    if (startMusicBtn) {
-      startMusicBtn.addEventListener('click', playMusic);
-    }
-
-    document.addEventListener('pointerdown', playMusic, { once: true });
-    document.addEventListener('touchstart', playMusic, { once: true });
-
-    const marker = document.querySelector('a-marker');
-    if (marker) {
-      marker.addEventListener('markerFound', playMusic);
-    }
-  </script>
 </body>
 
