@@ -9,7 +9,7 @@
 </head>
 
 <body style="margin : 0px; overflow: hidden;">
-  <button id="startButton" style="position: fixed; left: 50%; top: 20px; transform: translateX(-50%); z-index: 999; padding: 10px 20px; font-size: 16px; border: none; border-radius: 8px; background: #ffb703; color: #000; font-weight: bold;">音楽とアニメーション開始</button>
+  <button id="toggleButton" style="position: fixed; left: 50%; top: 20px; transform: translateX(-50%); z-index: 999; padding: 10px 20px; font-size: 16px; border: none; border-radius: 8px; background: #ffb703; color: #000; font-weight: bold;">音楽とアニメーション開始</button>
 
   <a-scene embedded arjs>
             <!-- a-sceneのところへ「embedded arjs」と入れないと、アスペクト比（縦横比）が狂います -->
@@ -44,30 +44,47 @@
   </a-scene>
 
   <script>
-    const startButton = document.getElementById('startButton');
+    const toggleButton = document.getElementById('toggleButton');
     const bgm = document.getElementById('bgm');
     const cake = document.getElementById('cake');
+    let isPlaying = false;
 
-    function startExperience() {
-      if (startButton) startButton.style.display = 'none';
+    function updateButtonLabel() {
+      if (!toggleButton) return;
+      toggleButton.textContent = isPlaying ? '音楽とアニメーション停止' : '音楽とアニメーション開始';
+    }
+
+    function toggleExperience() {
+      isPlaying = !isPlaying;
+      updateButtonLabel();
 
       if (bgm) {
-        bgm.volume = 0.7;
-        bgm.currentTime = 0;
-        bgm.play().catch(() => {});
+        if (isPlaying) {
+          bgm.volume = 0.7;
+          bgm.currentTime = 0;
+          bgm.play().catch(() => {});
+        } else {
+          bgm.pause();
+          bgm.currentTime = 0;
+        }
       }
 
       if (cake) {
-        cake.setAttribute('visible', true);
-        cake.setAttribute('animation-mixer', {
-          clip: '*',
-          loop: 'repeat'
-        });
+        if (isPlaying) {
+          cake.setAttribute('visible', true);
+          cake.setAttribute('animation-mixer', {
+            clip: '*',
+            loop: 'repeat'
+          });
+        } else {
+          cake.setAttribute('visible', false);
+          cake.removeAttribute('animation-mixer');
+        }
       }
     }
 
-    if (startButton) {
-      startButton.addEventListener('click', startExperience);
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleExperience);
     }
   </script>
 </body>
