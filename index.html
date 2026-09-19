@@ -25,11 +25,10 @@
       <a-entity
           id="cake"
           gltf-model="url(./20260912cake.glb)"
-          
+          visible="false"
           position="0 0 0"
           rotation="0 0 0"
-          scale="0.5 0.5 0.5"
-          animation-mixer></a-entity>
+          scale="0.5 0.5 0.5"></a-entity>
                 <!-- 「animation-mixer」を追記します -->
 
          
@@ -70,9 +69,6 @@
     if (startButton) {
       startButton.addEventListener('click', startExperience);
     }
-
-    document.addEventListener('touchstart', startExperience, { once: true });
-    document.addEventListener('pointerdown', startExperience, { once: true });
   </script>
 </body>
 
