@@ -14,12 +14,14 @@
   <a-scene embedded arjs="debugUIEnabled: false;" renderer="colorManagement: true;" vr-mode-ui="enabled: false">
  
             <!-- a-sceneのところへ「embedded arjs」と入れないと、アスペクト比（縦横比）が狂います -->
-
+             <!-- 「arjs="debugUIEnabled: false;"」を入れると、デバック用のUIが非表示になります -->
+              <!-- 「renderer="colorManagement: true;"」を入れると、色の管理が有効になります -->
     <!-- マーカーが認識されたら -->
     <a-marker
       type="pattern" 
       preset="custom" 
-      url="./pattern.patt">
+      url="./pattern.patt"
+      patternRatio="0.5">
 
       <!-- 画像を表示します -->
           <!-- ケーキのアニメーション -->
